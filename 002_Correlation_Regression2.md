@@ -1,8 +1,4 @@
-Alright Truman — statistician hat on 🎓
-Based strictly on **PDF 2.01 → 2.08**, I’ll give you **3 solid, exam-ready use cases**, each tied to the **right statistical concept**, with **tables + graphs (conceptual illustrations)** and **clear interpretation**.
-I’ll also tell you *why* each method is used — this is where marks usually hide.
 
----
 
 ## **Use Case 1: Lifestyle & Health Analysis**
 
@@ -198,12 +194,4 @@ Possible explanations:
 | National performance | Regression + R²        | Predict & evaluate model     |
 | Social attitudes     | Contingency table      | Avoid false causal claims    |
 
----
 
-If you want next:
-
-* 🔹 **Turn these into MBA exam answers**
-* 🔹 **Convert into SPSS / SmartPLS workflow**
-* 🔹 **Rewrite as A+ distinction-level discussion**
-
-Just tell me which angle you want 😏
