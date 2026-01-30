@@ -1,275 +1,336 @@
-# **Six Statistical Use Cases Based on Sampling Distributions (Documents 5.01–5.07)**
+# **Six Statistical Use Cases Based on Confidence Intervals (Documents 6.01–6.07)**
 
 ---
-### **Group:
-https://colab.research.google.com/drive/1SrwXB4w_29_PZ63f6E_pWYP93446-x5S?usp=sharing**
+## Graph:
+https://colab.research.google.com/drive/1b18fZPvCqDAKeuhf-dVX0pIbl23_9Gux?usp=sharing
 
-
-## **Use Case 1: Estimating Population Mean for Customer Lifetime Value (CLV)**
+## **Use Case 1: Estimating Average Customer Spend with Known Population Standard Deviation**
 
 ### **Concept & Purpose**
-- **Statistical Concept**: Sampling distribution of the sample mean, Central Limit Theorem (CLT), standard error.
-- **Purpose**: Estimate the average CLV of all customers based on a sample, and quantify the uncertainty of the estimate.
+- **Statistical Concept**: Confidence interval for a population mean when the population standard deviation (σ) is known, using the z-distribution.
+- **Purpose**: Estimate the average transaction value (mean spend) of all customers in a retail chain with a known historical standard deviation.
 - **Assumptions**:
-  - The sample is a simple random sample from the population.
-  - The sample size is large enough (n ≥ 30) for CLT to apply, or the population is normally distributed.
-  - Observations are independent.
+  - The sample is a simple random sample.
+  - The population standard deviation is known and constant.
+  - The sampling distribution of the sample mean is approximately normal (by CLT if n ≥ 30, or population is normally distributed).
 
-### **Application in Business**
-A retail company wants to estimate the average CLV of its 500,000 customers. It draws a random sample of 200 customers and calculates their CLV. The sample mean is $1,200 with a standard deviation of $400.
+### **Application in Retail**
+A national retail chain wants to estimate the average transaction value (ATV) of its 2 million customers. Historical data shows the population standard deviation is $50. A random sample of 100 transactions yields a sample mean of $85.
 
 ### **Structured Data & Calculations**
-- Population size: N = 500,000
-- Sample size: n = 200
-- Sample mean: \(\bar{x} = \$1,200\)
-- Sample standard deviation: s = $400
-- Estimated standard error: \(\sigma_{\bar{x}} \approx \frac{s}{\sqrt{n}} = \frac{400}{\sqrt{200}} \approx \$28.28\)
+- Population standard deviation (σ): $50
+- Sample size (n): 100
+- Sample mean (\(\bar{x}\)): $85
+- Confidence level: 95% → z* = 1.96
 
-**Probability Table for Sample Means (based on CLT):**
-| Interval Around Population Mean | Z-score | Probability |
-|---------------------------------|---------|-------------|
-| \(\mu \pm 1 \sigma_{\bar{x}}\)  | ±1      | 68.3%       |
-| \(\mu \pm 1.96 \sigma_{\bar{x}}\) | ±1.96   | 95.0%       |
-| \(\mu \pm 2.58 \sigma_{\bar{x}}\) | ±2.58   | 99.0%       |
+**Standard error (SE)**:  
+\[
+SE = \frac{\sigma}{\sqrt{n}} = \frac{50}{\sqrt{100}} = 5
+\]
+
+**Margin of error (ME)**:  
+\[
+ME = z^* \times SE = 1.96 \times 5 = 9.8
+\]
+
+**95% Confidence Interval**:  
+\[
+\bar{x} \pm ME = 85 \pm 9.8 = [75.2, 94.8]
+\]
+
+**Probability Table for Sample Means (under normality)**:
+| Interval (around μ) | Z-score | Probability |
+|---------------------|---------|-------------|
+| μ ± 1.645 SE        | ±1.645  | 90%         |
+| μ ± 1.96 SE         | ±1.96   | 95%         |
+| μ ± 2.576 SE        | ±2.576  | 99%         |
 
 ### **Visualization**
 ```plaintext
-Sampling Distribution of Sample Mean (Bell Curve)
-X-axis: Sample mean CLV ($)
+Normal Distribution (Bell Curve):
+X-axis: Sample mean transaction value ($)
 Y-axis: Probability density
-Vertical line at sample mean $1,200; shaded area for 95% CI: $1,200 ± 1.96*28.28 = [$1,144.6, $1,255.4]
+Vertical line at sample mean $85; shaded area between $75.2 and $94.8 represents 95% CI.
 ```
-- **Interpretation**: The sampling distribution is approximately normal. The 95% confidence interval suggests that the true population mean CLV lies between $1,144.6 and $1,255.4 with 95% confidence.
+- **Interpretation**: We are 95% confident that the true population mean transaction value lies between $75.2 and $94.8. The margin of error is ±$9.8.
 
 ### **Key Insights & Decision Implications**
-- **Insight**: The estimate has a margin of error of about ±$55.4 (at 95% confidence). Larger samples would reduce this margin.
-- **Decision**: Use the confidence interval for budget planning and customer segmentation. Implement an interactive dashboard that updates the CI as new sample data arrives, allowing dynamic adjustment of marketing strategies.
+- **Insight**: The ATV estimate is relatively precise due to the large sample and known σ. The CI helps in revenue forecasting and inventory planning.
+- **Decision**: Use this CI to set realistic sales targets. Implement an interactive dashboard where managers can adjust confidence levels (90%, 95%, 99%) and see how the CI changes, aiding in risk-aware decision-making.
 
 ---
 
-## **Use Case 2: Designing a Representative Political Poll**
+## **Use Case 2: Quality Control – Estimating Defect Proportion in Manufacturing**
 
 ### **Concept & Purpose**
-- **Statistical Concept**: Simple random sampling, stratified random sampling, sampling bias, nonresponse bias.
-- **Purpose**: Obtain a sample that accurately represents the voting population to predict election outcomes.
-- **Assumptions**:
-  - A complete sampling frame is available (e.g., voter registration list).
-  - Respondents answer truthfully.
-  - Nonresponse is random or accounted for.
-
-### **Application in Research**
-A polling agency wants to predict the outcome of a mayoral election in a city with 1 million eligible voters. They plan to survey 1,000 voters.
-
-### **Sampling Design Table**
-| Sampling Method          | Description                                   | Advantage                                  | Disadvantage                               |
-|--------------------------|-----------------------------------------------|--------------------------------------------|--------------------------------------------|
-| Simple Random            | Randomly select 1,000 from voter list         | Unbiased, simple                           | Requires complete list, may be costly      |
-| Stratified Random        | Divide by age group, sample proportionally    | Ensures representation of key demographics | Need demographic data, more complex        |
-| Cluster Sampling         | Randomly select neighborhoods, survey all     | Cost-effective for face-to-face            | Higher sampling error if clusters are similar |
-
-**Potential Biases and Mitigation:**
-| Bias Type         | Risk                                          | Mitigation                                  |
-|-------------------|-----------------------------------------------|---------------------------------------------|
-| Undercoverage     | Unregistered voters not in frame              | Use multiple frames (e.g., phone + online)  |
-| Nonresponse       | Young voters less likely to respond           | Weighting, follow-ups                       |
-| Response          | Social desirability (e.g., shy Trump voters)  | Anonymous surveys, neutral wording          |
-
-### **Visualization**
-```plaintext
-Bar Chart: Sample vs. Population Demographics
-X-axis: Age groups (18-30, 31-50, 51+)
-Y-axis: Percentage
-Two bars per group: population % and sample %.
-Goal: bars should align closely.
-```
-- **Interpretation**: If the sample proportions match population proportions, the sample is representative. Discrepancies indicate potential coverage or nonresponse bias.
-
-### **Key Insights & Decision Implications**
-- **Insight**: Stratified sampling ensures demographic representation but adds complexity. Nonresponse bias can skew results.
-- **Decision**: Use stratified random sampling with oversampling of underrepresented groups. Develop a polling dashboard that tracks response rates by demographic and applies real-time weighting adjustments.
-
----
-
-## **Use Case 3: Monitoring Defect Rates in Manufacturing**
-
-### **Concept & Purpose**
-- **Statistical Concept**: Sampling distribution of the sample proportion, normal approximation conditions.
-- **Purpose**: Estimate the proportion of defective items in a production batch and set up control limits.
+- **Statistical Concept**: Confidence interval for a population proportion, using the normal approximation.
+- **Purpose**: Estimate the proportion of defective items in a production batch to ensure quality standards.
 - **Assumptions**:
   - The sample is random.
   - The sample size is large enough: \(n\hat{p} \geq 15\) and \(n(1-\hat{p}) \geq 15\).
-  - Items are independent.
+  - The normal approximation is valid.
 
-### **Application in Quality Control**
-A factory produces 10,000 electronic components per day. Quality control inspects a random sample of 500 items each day. The historical defect rate is 2%.
+### **Application in Manufacturing**
+A factory produces 50,000 units of a component monthly. A random sample of 400 units is inspected, and 12 are found defective.
 
-### **Probability Calculations**
-- Population proportion: \(\pi = 0.02\)
-- Sample size: n = 500
-- Standard error: \(\sigma_p = \sqrt{\frac{\pi(1-\pi)}{n}} = \sqrt{\frac{0.02*0.98}{500}} \approx 0.00626\)
-- Control limits (95%): \(0.02 \pm 1.96*0.00626 = [0.0077, 0.0323]\)
+### **Structured Data & Calculations**
+- Sample size (n): 400
+- Number of defects (x): 12
+- Sample proportion (\(\hat{p}\)): \(12/400 = 0.03\)
+- Confidence level: 95% → z* = 1.96
 
-**Sampling Distribution of Sample Proportion (Table):**
-| Sample Defect Rate (p) | Probability (approx) | Cumulative Probability |
-|------------------------|----------------------|------------------------|
-| p < 0.01               | 5%                   | 5%                     |
-| 0.01 ≤ p < 0.02        | 45%                  | 50%                    |
-| 0.02 ≤ p < 0.03        | 45%                  | 95%                    |
-| p ≥ 0.03               | 5%                   | 100%                   |
+**Standard error (SE)**:  
+\[
+SE = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \sqrt{\frac{0.03 \times 0.97}{400}} \approx 0.0085
+\]
 
-### **Visualization**
-```plaintext
-Control Chart for Sample Proportion
-X-axis: Day
-Y-axis: Defect rate
-Horizontal lines: mean (0.02), upper control limit (0.0323), lower control limit (0.0077).
-Points: daily defect rates.
-```
-- **Interpretation**: Points within control limits indicate stable process. A point above UCL signals a potential increase in defect rate, triggering investigation.
+**Margin of error (ME)**:  
+\[
+ME = z^* \times SE = 1.96 \times 0.0085 \approx 0.0167
+\]
 
-### **Key Insights & Decision Implications**
-- **Insight**: The sampling distribution allows us to distinguish common cause variation from special cause variation.
-- **Decision**: Implement a real-time quality dashboard that plots daily defect rates against control limits. Automate alerts when limits are breached, and link to root-cause analysis workflows.
+**95% Confidence Interval**:  
+\[
+\hat{p} \pm ME = 0.03 \pm 0.0167 = [0.0133, 0.0467]
+\]
 
----
-
-## **Use Case 4: Financial Risk Assessment for Loan Portfolios**
-
-### **Concept & Purpose**
-- **Statistical Concept**: Three distributions (population, sample, sampling distribution), z-scores, probability of extreme sample means.
-- **Purpose**: Assess the risk that the average return on a loan portfolio falls below a threshold.
-- **Assumptions**:
-  - Portfolio returns are normally distributed (or CLT applies for sample means).
-  - Historical mean and standard deviation are known.
-
-### **Application in Finance**
-A bank holds a portfolio of 1,000 small business loans. The average annual return (population mean) is 8% with a standard deviation of 5%. The risk team wants to know the probability that a random sample of 100 loans has an average return below 5%.
-
-### **Calculations**
-- Population mean: \(\mu = 0.08\)
-- Population standard deviation: \(\sigma = 0.05\)
-- Sample size: n = 100
-- Standard error: \(\sigma_{\bar{x}} = \frac{0.05}{\sqrt{100}} = 0.005\)
-- Z-score for sample mean 0.05: \(z = \frac{0.05 - 0.08}{0.005} = -6\)
-- Probability: P(\(\bar{x} < 0.05\)) ≈ 0 (from z-table)
-
-**Probability Table for Sample Mean Returns:**
-| Sample Mean Return | Z-score | Probability (Cumulative) |
-|--------------------|---------|--------------------------|
-| 0.06               | -4      | 0.00003                  |
-| 0.07               | -2      | 0.0228                   |
-| 0.08               | 0       | 0.5                      |
-| 0.09               | 2       | 0.9772                   |
-| 0.10               | 4       | 0.99997                  |
+**Probability Table for Sample Proportions**:
+| Sample Proportion (p) | Z-score | Cumulative Probability |
+|-----------------------|---------|------------------------|
+| 0.02                  | -1.18   | 0.1190                 |
+| 0.03                  | 0.00    | 0.5000                 |
+| 0.04                  | 1.18    | 0.8810                 |
 
 ### **Visualization**
 ```plaintext
-Three Distributions Overlay:
-1. Population distribution: normal, mean 0.08, sd 0.05 (wide).
-2. Sample distribution (one sample): histogram of 100 loans.
-3. Sampling distribution: normal, mean 0.08, sd 0.005 (narrow).
-Vertical line at 0.05.
+Normal Approximation to Binomial Distribution:
+X-axis: Defect proportion (0 to 0.07)
+Y-axis: Probability density
+Vertical line at sample proportion 0.03; shaded area between 0.0133 and 0.0467 represents 95% CI.
 ```
-- **Interpretation**: The sampling distribution is much narrower than the population distribution. The probability of a sample mean below 5% is virtually zero, indicating low risk for large samples.
+- **Interpretation**: We are 95% confident that the true defect proportion in the population is between 1.33% and 4.67%. The estimate has a margin of error of ±1.67 percentage points.
 
 ### **Key Insights & Decision Implications**
-- **Insight**: Even though individual loans are risky (sd=5%), the average return of a large sample is very stable. Diversification reduces risk.
-- **Decision**: Use sampling distribution concepts to set risk limits for portfolio segments. Create a dashboard that simulates sample mean distributions for different portfolio sizes and highlights probabilities of breaching thresholds.
+- **Insight**: The defect rate is likely below the 5% threshold, but the upper bound of 4.67% is close, warranting monitoring.
+- **Decision**: Implement a real-time quality dashboard that plots daily defect proportions with CIs. Set up alerts when the CI upper bound exceeds 5%, triggering root-cause analysis.
 
 ---
 
-## **Use Case 5: Determining Sample Size for Employee Satisfaction Survey**
+## **Use Case 3: Sample Size Determination for Employee Satisfaction Survey**
 
 ### **Concept & Purpose**
-- **Statistical Concept**: Margin of error, standard error, sample size formula for means and proportions.
-- **Purpose**: Determine the minimum sample size required to estimate employee satisfaction within a specified margin of error.
+- **Statistical Concept**: Sample size calculation for estimating a mean or proportion with a desired margin of error and confidence level.
+- **Purpose**: Determine the minimum sample size required to estimate overall employee satisfaction within a specified precision.
 - **Assumptions**:
   - The population is large (e.g., >10,000).
-  - The variable of interest is approximately normally distributed.
-  - A desired confidence level (e.g., 95%) and margin of error are chosen.
+  - For means: an estimate of population standard deviation is available.
+  - For proportions: an estimate of the proportion (or the conservative 0.5) is used.
 
 ### **Application in HR**
-A company with 20,000 employees wants to conduct a satisfaction survey. The satisfaction score is on a 1-10 scale. Previous surveys show a standard deviation of 2.5. They want a margin of error of ±0.3 points with 95% confidence.
+A company with 10,000 employees wants to conduct a satisfaction survey (scale 1–10). Previous surveys show a standard deviation of 2.0. They desire a margin of error of ±0.3 points with 95% confidence.
 
-### **Sample Size Calculation**
+### **Sample Size Calculation for Mean**
 - Confidence level: 95% → z* = 1.96
-- Margin of error (E): 0.3
-- Estimated standard deviation (σ): 2.5
-- Formula: \(n = \left(\frac{z^* \sigma}{E}\right)^2 = \left(\frac{1.96 * 2.5}{0.3}\right)^2 \approx 266.8\) → round up to 267.
+- Margin of error (ME): 0.3
+- Estimated standard deviation (σ): 2.0
 
-**Sample Size Table for Different Scenarios:**
-| Margin of Error (E) | Confidence Level | Required Sample Size (n) |
-|---------------------|------------------|--------------------------|
-| 0.5                 | 95%              | 96                       |
-| 0.3                 | 95%              | 267                      |
-| 0.2                 | 95%              | 600                      |
-| 0.3                 | 99%              | 462                      |
+**Formula**:  
+\[
+n = \left( \frac{z^* \times \sigma}{ME} \right)^2 = \left( \frac{1.96 \times 2.0}{0.3} \right)^2 \approx 170.74 \rightarrow 171
+\]
+
+**Sample Size Table for Different Scenarios**:
+| ME   | Confidence | σ   | Required n |
+|------|------------|-----|------------|
+| 0.3  | 95%        | 2.0 | 171        |
+| 0.5  | 95%        | 2.0 | 62         |
+| 0.3  | 99%        | 2.0 | 295        |
+| 0.2  | 95%        | 2.0 | 384        |
 
 ### **Visualization**
 ```plaintext
-Line Chart: Sample Size vs. Margin of Error
-X-axis: Margin of Error (from 0.1 to 1)
-Y-axis: Required Sample Size
+Line Chart: Required Sample Size vs. Margin of Error
+X-axis: Margin of Error (0.1 to 1.0)
+Y-axis: Required Sample Size (log scale)
 Multiple lines for different confidence levels (90%, 95%, 99%).
 ```
-- **Interpretation**: As the desired margin of error decreases, the required sample size increases sharply. Higher confidence also requires larger samples.
+- **Interpretation**: As the desired margin of error decreases, the required sample size increases exponentially. Higher confidence levels also require larger samples.
 
 ### **Key Insights & Decision Implications**
-- **Insight**: A sample of 267 employees is sufficient to estimate the overall satisfaction within ±0.3 points. Stratification may reduce required size if subgroups are of interest.
-- **Decision**: Use an interactive sample size calculator in the survey planning dashboard. Input parameters (population size, confidence level, margin of error, estimated variability) to get recommended sample sizes and associated costs.
+- **Insight**: A sample of 171 employees is sufficient to estimate the mean satisfaction within ±0.3 points with 95% confidence. Stratification by department may reduce required size.
+- **Decision**: Use an interactive sample size calculator in the survey planning dashboard. Input parameters (population size, confidence level, margin of error, estimated variability) to get recommended sample sizes and associated costs. This ensures cost-effective yet precise surveys.
 
 ---
 
-## **Use Case 6: Analyzing A/B Test Results for Website Conversion**
+## **Use Case 4: Estimating Average User Engagement Time with Unknown σ**
 
 ### **Concept & Purpose**
-- **Statistical Concept**: Sampling distribution of the difference between two proportions, hypothesis testing.
-- **Purpose**: Determine if a new website design (B) leads to a higher conversion rate than the old design (A).
+- **Statistical Concept**: Confidence interval for a population mean when the population standard deviation is unknown, using the t-distribution.
+- **Purpose**: Estimate the average time users spend on a new mobile app feature. No prior data is available, so the sample standard deviation is used.
 - **Assumptions**:
-  - Visitors are randomly assigned to A or B.
-  - Observations are independent.
-  - Sample sizes are large enough for normal approximation.
+  - The sample is random.
+  - The population is approximately normally distributed (robust to moderate violations if n ≥ 30).
+  - No extreme outliers.
 
-### **Application in Digital Marketing**
-An e-commerce site tests two designs: A (control) and B (new). Out of 10,000 visitors, 5,000 see each. Conversion counts: A: 400 conversions, B: 480 conversions.
+### **Application in Tech**
+A startup launches a new feature and wants to estimate the average time users spend on it. A random sample of 25 users is tracked, yielding a sample mean of 8.2 minutes and a sample standard deviation of 2.5 minutes.
 
-### **Data and Calculations**
-- Proportion A: \(\hat{p}_A = 400/5000 = 0.08\)
-- Proportion B: \(\hat{p}_B = 480/5000 = 0.096\)
-- Difference: \(\hat{p}_B - \hat{p}_A = 0.016\)
-- Pooled proportion: \(\hat{p} = (400+480)/(5000+5000) = 0.088\)
-- Standard error of difference: \(\sqrt{\hat{p}(1-\hat{p})(\frac{1}{n_A}+\frac{1}{n_B})} = \sqrt{0.088*0.912*(1/5000+1/5000)} \approx 0.00567\)
-- Z-score: \(z = 0.016 / 0.00567 \approx 2.82\)
-- p-value: P(Z > 2.82) ≈ 0.0024 (one-tailed)
+### **Structured Data & Calculations**
+- Sample size (n): 25
+- Sample mean (\(\bar{x}\)): 8.2 minutes
+- Sample standard deviation (s): 2.5 minutes
+- Confidence level: 95%
+- Degrees of freedom (df): n - 1 = 24
+- t* for 95% CI with df=24: 2.064 (from t-table)
 
-**Probability Table for Differences under Null Hypothesis:**
-| Difference (B - A) | Z-score | Probability (Cumulative) |
-|--------------------|---------|--------------------------|
-| -0.01              | -1.76   | 0.0392                   |
-| 0.00               | 0.00    | 0.5000                   |
-| 0.01               | 1.76    | 0.9608                   |
-| 0.016              | 2.82    | 0.9976                   |
+**Standard error (SE)**:  
+\[
+SE = \frac{s}{\sqrt{n}} = \frac{2.5}{\sqrt{25}} = 0.5
+\]
+
+**Margin of error (ME)**:  
+\[
+ME = t^* \times SE = 2.064 \times 0.5 \approx 1.032
+\]
+
+**95% Confidence Interval**:  
+\[
+\bar{x} \pm ME = 8.2 \pm 1.032 = [7.168, 9.232]
+\]
+
+**t-Distribution Critical Values Table**:
+| Confidence Level | df=10 | df=24 | df=30 | df=∞ (z) |
+|------------------|-------|-------|-------|----------|
+| 90%              | 1.812 | 1.711 | 1.697 | 1.645    |
+| 95%              | 2.228 | 2.064 | 2.042 | 1.960    |
+| 99%              | 3.169 | 2.797 | 2.750 | 2.576    |
 
 ### **Visualization**
 ```plaintext
-Sampling Distribution of Difference under Null Hypothesis (Normal, mean=0, se=0.00567)
-X-axis: Difference in conversion rates (B - A)
+t-Distribution (df=24) vs. Normal Distribution:
+X-axis: Sample mean engagement time (minutes)
 Y-axis: Probability density
-Vertical line at observed difference (0.016); shaded area for p-value (right tail).
+t-distribution (blue) with thicker tails; normal distribution (black).
+Shaded area between 7.168 and 9.232 represents 95% CI.
 ```
-- **Interpretation**: The observed difference is far in the right tail of the null distribution, indicating statistical significance.
+- **Interpretation**: We are 95% confident that the true population mean engagement time lies between 7.168 and 9.232 minutes. The t-distribution accounts for extra uncertainty due to estimating σ.
 
 ### **Key Insights & Decision Implications**
-- **Insight**: The new design increases conversion by 1.6 percentage points (a 20% relative improvement), and the result is statistically significant (p < 0.01).
-- **Decision**: Roll out design B to all visitors. Implement an A/B testing dashboard that automatically calculates significance, confidence intervals, and lifts for multiple metrics, with alerts when tests reach significance.
+- **Insight**: The interval is wider than if σ were known, reflecting added uncertainty. The estimate suggests moderate user engagement.
+- **Decision**: Use this CI to decide whether to invest further in the feature. Create a dashboard that updates the CI as more data comes in, and alerts when the CI excludes a target threshold (e.g., 10 minutes).
+
+---
+
+## **Use Case 5: Impact of Confidence Level on Drug Efficacy Estimation**
+
+### **Concept & Purpose**
+- **Statistical Concept**: How confidence level (90%, 95%, 99%) affects the width of a confidence interval for a mean.
+- **Purpose**: Report the estimated improvement in patient recovery time due to a new drug, and illustrate the trade-off between confidence and precision.
+- **Assumptions**:
+  - The sample is random and representative.
+  - The population standard deviation is known or estimated.
+  - The sampling distribution is approximately normal.
+
+### **Application in Pharmaceuticals**
+A clinical trial tests a new drug on 50 patients. The mean reduction in recovery time is 3.2 days with a standard deviation of 1.8 days. Calculate and compare 90%, 95%, and 99% confidence intervals.
+
+### **Structured Data & Calculations**
+- Sample size (n): 50
+- Sample mean (\(\bar{x}\)): 3.2 days
+- Sample standard deviation (s): 1.8 days (used as estimate of σ)
+- Standard error (SE): \(1.8 / \sqrt{50} \approx 0.2546\)
+
+**Critical values**:
+- 90% CI: z* = 1.645
+- 95% CI: z* = 1.96
+- 99% CI: z* = 2.576
+
+**Confidence Intervals**:
+| Confidence Level | Margin of Error | CI Lower | CI Upper | Width    |
+|------------------|-----------------|----------|----------|----------|
+| 90%              | 0.4188          | 2.7812   | 3.6188   | 0.8376   |
+| 95%              | 0.4989          | 2.7011   | 3.6989   | 0.9978   |
+| 99%              | 0.6557          | 2.5443   | 3.8557   | 1.3114   |
+
+### **Visualization**
+```plaintext
+Bar Chart: Confidence Intervals for Different Confidence Levels
+X-axis: Confidence Level (90%, 95%, 99%)
+Y-axis: Mean reduction (days)
+Bars represent point estimate (3.2) with error bars showing the CI.
+```
+- **Interpretation**: As confidence level increases, the interval widens. The 99% CI is the widest, reflecting greater certainty that it contains the true mean, but at the cost of precision.
+
+### **Key Insights & Decision Implications**
+- **Insight**: The drug shows a statistically significant reduction (all CIs are above zero). Higher confidence yields more conservative estimates.
+- **Decision**: Choose the confidence level based on stakeholder risk tolerance. For regulatory submissions, a 95% CI is standard. For internal decisions, a 90% CI might suffice. Develop an interactive tool that allows adjusting the confidence level and instantly updates the CI, helping communicate uncertainty.
+
+---
+
+## **Use Case 6: Estimating Conversion Rate for a Marketing Campaign**
+
+### **Concept & Purpose**
+- **Statistical Concept**: Confidence interval for a proportion, with sample size determination for a desired margin of error.
+- **Purpose**: Estimate the conversion rate (proportion of clicks leading to purchases) of a new online ad campaign and plan future sample sizes.
+- **Assumptions**:
+  - The sample is a random subset of visitors.
+  - The sample size is large enough: \(n\hat{p} \geq 15\) and \(n(1-\hat{p}) \geq 15\).
+  - The normal approximation is valid.
+
+### **Application in Digital Marketing**
+A company runs an ad campaign for 1 week. Out of 2,000 clicks, 120 resulted in purchases. They want to estimate the conversion rate with 95% confidence and determine the sample size needed for a future campaign to achieve a margin of error of ±1%.
+
+### **Structured Data & Calculations**
+- Sample size (n): 2,000
+- Conversions (x): 120
+- Sample proportion (\(\hat{p}\)): \(120/2000 = 0.06\)
+- Confidence level: 95% → z* = 1.96
+
+**Standard error (SE)**:  
+\[
+SE = \sqrt{\frac{0.06 \times 0.94}{2000}} \approx 0.0053
+\]
+
+**Margin of error (ME)**:  
+\[
+ME = 1.96 \times 0.0053 \approx 0.0104
+\]
+
+**95% Confidence Interval**:  
+\[
+\hat{p} \pm ME = 0.06 \pm 0.0104 = [0.0496, 0.0704]
+\]
+
+**Sample size needed for ME = 0.01 (1%)**:
+Using conservative \(\hat{p} = 0.5\):
+\[
+n = \frac{(z^*)^2 \times \hat{p}(1-\hat{p})}{ME^2} = \frac{1.96^2 \times 0.5 \times 0.5}{0.01^2} = 9604
+\]
+Using \(\hat{p} = 0.06\):
+\[
+n = \frac{1.96^2 \times 0.06 \times 0.94}{0.01^2} \approx 2167
+\]
+
+### **Visualization**
+```plaintext
+Normal Distribution for Sample Proportion:
+X-axis: Conversion rate (0.04 to 0.08)
+Y-axis: Probability density
+Vertical line at sample proportion 0.06; shaded area between 0.0496 and 0.0704 represents 95% CI.
+```
+- **Interpretation**: We are 95% confident that the true conversion rate is between 4.96% and 7.04%. The margin of error is ±1.04 percentage points.
+
+### **Key Insights & Decision Implications**
+- **Insight**: The conversion rate is likely between 5% and 7%, which may meet the target of 5%. For a more precise estimate (±1%), a sample size of about 2,167 clicks is needed if the proportion is near 6%, but a conservative approach would require 9,604 clicks.
+- **Decision**: Use the CI to evaluate campaign success. Build an A/B testing dashboard that computes CIs for different campaigns and recommends sample sizes for future tests based on desired precision and confidence.
 
 ---
 
 ## **Summary**
-These six use cases demonstrate how sampling distribution concepts are applied in business, finance, and research. Each case includes:
+These six use cases demonstrate how confidence intervals are applied in business, finance, and research. Each case includes:
 - Clear statistical explanations and assumptions.
 - Practical applications with realistic scenarios.
 - Structured tables and visualizations.
 - Key insights and actionable decision frameworks.
 
-By leveraging these concepts, organizations can make data-driven decisions, optimize processes, and manage risks effectively. Interactive dashboards and probability tables enhance real-time decision-making and strategic planning.
+By leveraging confidence intervals, organizations can make data-driven decisions, quantify uncertainty, and optimize resource allocation. Interactive dashboards and sample size calculators enhance real-time decision-making and strategic planning.
