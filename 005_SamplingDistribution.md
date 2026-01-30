@@ -1,5 +1,8 @@
 # **Six Statistical Use Cases Based on Sampling Distributions (Documents 5.01–5.07)**
 
+###Graph:
+https://colab.research.google.com/drive/10SGUImOZGd2kfZW_ldYbnRPIqcG54cst?usp=sharing
+###
 ---
 
 ## **Use Case 1: Estimating Population Mean for Customer Lifetime Value (CLV)**
