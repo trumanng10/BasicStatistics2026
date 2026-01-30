@@ -1,5 +1,9 @@
 # **Six Statistical Use Cases Based on Probability Distributions (Documents 401–408)**
 
+### Graph:
+https://colab.research.google.com/drive/1Mo3wFbORc4PvhFdIv8tvUPT4a3KLgpgz?usp=sharing
+###
+
 ---
 
 ## **Use Case 1: Customer Arrival Modeling Using Probability Distributions**
