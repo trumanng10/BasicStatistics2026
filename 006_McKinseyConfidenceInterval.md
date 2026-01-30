@@ -1,4 +1,6 @@
 # Six Statistical Use Cases: Confidence Intervals in Business & Research
+# Graph:
+https://colab.research.google.com/drive/1A2vJFLWSBbC2XFh_cUYkW6_kwYedF_rv?usp=sharing
 
 Based on the provided educational modules on confidence intervals, I have developed six distinct, practical use cases. Each case is structured to clarify the statistical concept, demonstrate application, visualize results, and highlight actionable insights for decision-makers at the MBA or research level.
 
